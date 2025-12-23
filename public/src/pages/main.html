@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Research Bank | Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="bg-slate-50 font-[Inter] text-slate-800">
+    <!-- ================= MODAL ================= -->
+    <div
+      id="publish-modal"
+      class="fixed inset-0 z-50 items-center justify-center bg-black/40 backdrop-blur-sm p-4"
+    >
+      <div class="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl relative">
+        <!-- Close Button -->
+        <button
+          id="close-publish-modal"
+          class="absolute right-4 top-4 rounded-full p-2 text-slate-400 hover:bg-slate-100 transition"
+        >
+          ✕
+        </button>
+
+        <h2 class="text-2xl font-semibold text-center mb-4">
+          Publish Research Paper
+        </h2>
+
+        <form id="publish-form" class="space-y-4 max-h-[80vh] overflow-y-auto">
+          <!-- Research Title -->
+          <div>
+            <label class="block text-sm font-medium text-slate-700"
+              >Research Title</label
+            >
+            <input
+              type="text"
+              placeholder="Enter research title"
+              class="w-full rounded-xl border px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+              required
+            />
+          </div>
+
+          <!-- Description -->
+          <div>
+            <label class="block text-sm font-medium text-slate-700"
+              >Description</label
+            >
+            <textarea
+              placeholder="Enter research description"
+              class="w-full rounded-xl border px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+              rows="3"
+              required
+            ></textarea>
+          </div>
+
+          <!-- Researchers -->
+          <div>
+            <label class="block text-sm font-medium text-slate-700"
+              >Researchers</label
+            >
+            <div id="researchers-container" class="space-y-2">
+              <input
+                type="text"
+                placeholder="Researcher Name"
+                class="w-full rounded-xl border px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+                required
+              />
+            </div>
+            <button
+              type="button"
+              id="add-researcher"
+              class="mt-2 text-indigo-600 text-sm font-medium hover:underline"
+            >
+              + Add Another Researcher
+            </button>
+          </div>
+
+          <!-- Research Advisor -->
+          <div>
+            <label class="block text-sm font-medium text-slate-700"
+              >Research Advisor</label
+            >
+            <input
+              type="text"
+              placeholder="Advisor Name"
+              class="w-full rounded-xl border px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+              required
+            />
+          </div>
+
+          <!-- Date -->
+          <div>
+            <label class="block text-sm font-medium text-slate-700">Date</label>
+            <input
+              type="date"
+              class="w-full rounded-xl border px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+              required
+            />
+          </div>
+
+          <!-- Category -->
+          <div>
+            <label class="block text-sm font-medium text-slate-700"
+              >Category</label
+            >
+            <select
+              class="w-full rounded-xl border px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+              required
+            >
+              <option value="">Select category</option>
+              <option value="Computer Science">Computer Science</option>
+              <option value="Engineering">Engineering</option>
+              <option value="Psychology">Psychology</option>
+              <option value="Biology">Biology</option>
+              <option value="Mathematics">Mathematics</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <!-- File Upload -->
+          <div>
+            <label class="block text-sm font-medium text-slate-700"
+              >Upload PDF</label
+            >
+            <input
+              type="file"
+              accept=".pdf"
+              class="w-full text-sm text-slate-600"
+              required
+            />
+          </div>
+
+          <!-- Submit -->
+          <button
+            type="submit"
+            class="w-full rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 px-4 py-3 text-sm font-medium text-white shadow hover:scale-105 transition"
+          >
+            Publish
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="flex h-screen overflow-hidden">
+      <!-- ================= SIDEBAR ================= -->
+      <aside
+        id="sidebar"
+        class="fixed inset-y-0 left-0 z-40 w-72 transform -translate-x-full sm:translate-x-0 transition-transform bg-white border-r shadow-lg flex flex-col"
+      >
+        <!-- Logo -->
+        <div class="flex items-center gap-3 px-6 py-5 border-b">
+          <div
+            class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-500 to-violet-500 text-white shadow"
+          >
+            🔬
+          </div>
+          <div>
+            <h1 class="text-lg font-semibold">Research Bank</h1>
+            <p class="text-xs text-slate-500">Student Edition</p>
+          </div>
+        </div>
+
+        <!-- User -->
+        <div class="px-6 py-5 border-b">
+          <p class="text-sm text-slate-500">Logged in as</p>
+          <p class="font-medium" id="user-account">Jeremiah L.</p>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="px-4 py-4 flex-1 space-y-2 text-sm">
+          <a
+            href="#"
+            id="dashboard-link"
+            class="flex items-center gap-3 rounded-xl px-4 py-3 font-medium transition hover:bg-indigo-100 hover:text-indigo-700"
+          >
+            Dashboard
+          </a>
+          <a
+            href="#"
+            id="mypapers-link"
+            class="flex items-center gap-3 rounded-xl px-4 py-3 font-medium transition hover:bg-indigo-100 hover:text-indigo-700"
+          >
+            My Papers
+          </a>
+          <a
+            href="#"
+            id="account-link"
+            class="flex items-center gap-3 rounded-xl px-4 py-3 font-medium transition hover:bg-indigo-100 hover:text-indigo-700"
+          >
+            Account Settings
+          </a>
+        </nav>
+
+        <!-- Publish Button -->
+        <div class="px-6 py-4 border-t">
+          <button
+            id="publishpaper-button"
+            class="w-full rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 px-4 py-3 text-sm font-medium text-white shadow hover:scale-105 transition"
+          >
+            Publish Paper
+          </button>
+        </div>
+      </aside>
+
+      <!-- ================= MAIN CONTENT ================= -->
+      <div class="flex-1 flex flex-col sm:ml-72 overflow-y-auto">
+        <!-- Top bar -->
+        <div
+          class="flex items-center justify-between p-4 border-b bg-white sm:hidden"
+        >
+          <h2 class="text-lg font-semibold">Dashboard</h2>
+          <button
+            id="toggle-sidebar"
+            class="text-slate-700 text-xl p-2 rounded hover:bg-slate-100 transition"
+          >
+            ☰
+          </button>
+        </div>
+
+        <!-- Panels -->
+        <main class="p-6">
+          <!-- Dashboard Panel -->
+          <div id="dashboard-panel">
+            <header
+              class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 border-b pb-4"
+            >
+              <h2 class="text-2xl font-semibold">Published Papers</h2>
+              <div class="flex gap-4 flex-1 sm:flex-none">
+                <input
+                  type="text"
+                  placeholder="Search papers..."
+                  class="flex-1 rounded-xl border px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+                />
+                <button
+                  class="rounded-xl bg-indigo-500 px-4 py-2 text-white text-sm font-medium hover:bg-indigo-600 transition"
+                >
+                  Search
+                </button>
+              </div>
+            </header>
+
+            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <!-- Example Paper Card -->
+              <div
+                class="bg-white rounded-2xl p-6 shadow hover:shadow-lg transition flex flex-col justify-between"
+              >
+                <div>
+                  <h3 class="text-lg font-semibold">
+                    AI-Based Student Performance Analysis
+                  </h3>
+                  <p class="mt-1 text-sm text-slate-500">By John Doe · 2025</p>
+                  <p class="mt-3 text-sm text-slate-600 line-clamp-3">
+                    This study explores machine learning models to predict
+                    academic performance using student behavioral data.
+                  </p>
+                </div>
+                <div class="mt-4 flex items-center justify-between">
+                  <span
+                    class="rounded-full bg-indigo-100 px-3 py-1 text-xs text-indigo-600"
+                    >Computer Science</span
+                  >
+                  <a
+                    href="#"
+                    class="text-sm font-medium text-indigo-600 hover:underline"
+                    >View</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- My Papers Panel -->
+          <div id="mypapers-panel" class="hidden">
+            <header
+              class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 border-b pb-4"
+            >
+              <h2 class="text-2xl font-semibold">My Research</h2>
+              <div class="flex gap-4 flex-1 sm:flex-none">
+                <input
+                  type="text"
+                  placeholder="Search papers..."
+                  class="flex-1 rounded-xl border px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+                />
+                <button
+                  class="rounded-xl bg-indigo-500 px-4 py-2 text-white text-sm font-medium hover:bg-indigo-600 transition"
+                >
+                  Search
+                </button>
+              </div>
+            </header>
+          </div>
+
+          <!-- Account Settings Panel -->
+          <div id="account-panel" class="hidden">
+            <h2 class="text-2xl font-semibold mb-4">Account Settings</h2>
+            <form class="space-y-4 max-w-md">
+              <div>
+                <label class="block text-sm font-medium text-slate-700"
+                  >Full Name</label
+                >
+                <input
+                  type="text"
+                  value="Jeremiah L."
+                  class="w-full rounded-xl border px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-700"
+                  >Email</label
+                >
+                <input
+                  type="email"
+                  value="jeremiah@example.com"
+                  class="w-full rounded-xl border px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+                />
+              </div>
+              <button
+                class="rounded-xl bg-indigo-500 px-4 py-2 text-white text-sm font-medium hover:bg-indigo-600 transition"
+              >
+                Save Changes
+              </button>
+            </form>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- ================= JS ================= -->
+    <script src="../lib/mainPanelToggle.js"></script>
+  </body>
+</html>
