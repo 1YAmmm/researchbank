@@ -1,51 +1,53 @@
-// ------------------- DOM Elements -------------------
 const regFullname = document.getElementById("reg-fullname");
 const regEmail = document.getElementById("reg-email");
 const regPassword = document.getElementById("reg-password");
 const regButton = document.getElementById("reg-button");
 
-// ------------------- Appwrite Function Endpoint -------------------
-const FUNCTION_ID = "694a94b05aa5f757ce9d";
+const FUNCTION_ID = "694b9f32a914b043f01b";
 const FUNCTION_ENDPOINT = `https://fra.cloud.appwrite.io/v1/functions/${FUNCTION_ID}/executions`;
 
-// ------------------- Event Listener -------------------
-regButton.addEventListener("click", async (e) => {
-  e.preventDefault();
-  await registerUser();
-});
+document
+  .getElementById("register-form")
+  .addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-// ------------------- Register Function -------------------
-async function registerUser() {
-  const name = regFullname.value.trim();
-  const email = regEmail.value.trim();
-  const password = regPassword.value.trim();
+    const name = regFullname.value.trim();
+    const email = regEmail.value.trim();
+    const password = regPassword.value.trim();
 
-  if (!name || !email || !password) {
-    alert("Please fill in all fields.");
-    return;
-  }
-
-  try {
-    const response = await fetch(FUNCTION_ENDPOINT, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password }),
-    });
-
-    const result = await response.json();
-
-    if (result.success) {
-      alert(`User "${result.user.name}" registered successfully!`);
-      // Clear form
-      regFullname.value = "";
-      regEmail.value = "";
-      regPassword.value = "";
-    } else {
-      alert(`Error: ${result.error}`);
-      console.error(result.error);
+    if (!name || !email || !password) {
+      alert("Please fill in all fields.");
+      return;
     }
-  } catch (err) {
-    console.error("Function call failed:", err);
-    alert("Network or server error.");
-  }
-}
+
+    regButton.disabled = true;
+
+    try {
+      const response = await fetch(FUNCTION_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // Uncomment the next line if your function requires an API key
+          // "X-Appwrite-Key": "YOUR_FUNCTION_API_KEY"
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert(`User "${result.user.name}" registered successfully!`);
+        regFullname.value = "";
+        regEmail.value = "";
+        regPassword.value = "";
+      } else {
+        alert(`Error: ${result.error}`);
+        console.error(result.error);
+      }
+    } catch (err) {
+      console.error("Function call failed:", err);
+      alert("Network or server error.");
+    } finally {
+      regButton.disabled = false;
+    }
+  });
