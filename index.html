@@ -52,18 +52,21 @@
 
         <form class="mt-6 space-y-4">
           <input
+            id="login-email"
             type="email"
             placeholder="Email address"
             class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-indigo-500 focus:outline-none"
           />
 
           <input
+            id="login-password"
             type="password"
             placeholder="Password"
             class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-indigo-500 focus:outline-none"
           />
 
           <button
+            id="login-button"
             type="submit"
             class="w-full rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 py-2.5 text-sm font-medium text-white shadow-md transition hover:scale-[1.02]"
           >
@@ -284,9 +287,11 @@
     >
       © 2025 Research Bank · Built for Students & Researchers 🎓
     </footer>
-
+    <!-- Appwrite SDK CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@8.2.0/dist/appwrite.min.js"></script>
     <!-- JS -->
     <script src="/js/showRegisterLoginmodal.js"></script>
     <script src="/js/register.js"></script>
+    <script src="/js/loginAndVerify.js"></script>
   </body>
 </html>

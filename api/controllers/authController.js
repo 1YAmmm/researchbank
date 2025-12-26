@@ -9,31 +9,24 @@ export const registerUser = async (req, res) => {
   }
 
   try {
-    // 1️⃣ Create the user
-    const user = await account.create(ID.unique(), email, password, fullname);
-
-    // 2️⃣ Login the user
-    await account.createSession(email, password);
-
-    // 3️⃣ Send verification email
-    // Do NOT pass user.$id — just the redirect URL
-    await account.createVerification(
-      "https://researchbank-eta.vercel.app/pages/verified-account.html"
+    const response = await account.create(
+      ID.unique(),
+      email,
+      password,
+      fullname
     );
 
-    // 4️⃣ Logout
-    await account.deleteSession("current");
-
     res.status(201).json({
-      message: "User registered, verification email sent, and logged out",
+      message: "User created successfully",
       user: {
-        id: user.$id,
-        email: user.email,
-        name: user.name,
+        id: response.$id,
+        email: response.email,
+        name: response.name,
       },
     });
   } catch (error) {
     console.error("Appwrite error:", error);
+
     return res.status(error.code || 500).json({
       message: error.message || "Registration failed",
     });
