@@ -3,7 +3,10 @@ const regEmail = document.getElementById("reg-email");
 const regPassword = document.getElementById("reg-password");
 const regButton = document.getElementById("reg-button");
 
-const BACKEND_URL = "/api/auth";
+const BACKEND_URL =
+  window.location.hostname === "localhost"
+    ? "http://localhost:5000/api/auth"
+    : "https://researchbank-eta.vercel.app/api/auth";
 
 async function registerUser(data) {
   try {
