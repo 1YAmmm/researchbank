@@ -1,5 +1,5 @@
 import { ID } from "node-appwrite";
-import { account, users } from "../utils/appwrite.js";
+import { account } from "../utils/appwrite.js";
 
 export const registerUser = async (req, res) => {
   const { fullname, email, password } = req.body;
@@ -9,29 +9,31 @@ export const registerUser = async (req, res) => {
   }
 
   try {
-    const response = await account.create(
-      ID.unique(),
-      email,
-      password,
-      fullname
-    );
+    // 1️⃣ Create the user
+    const user = await account.create(ID.unique(), email, password, fullname);
 
-    await users.createVerification(
-      response.$id, // user ID from account.create
+    // 2️⃣ Login the user
+    await account.createSession(email, password);
+
+    // 3️⃣ Send verification email
+    // Do NOT pass user.$id — just the redirect URL
+    await account.createVerification(
       "https://researchbank-eta.vercel.app/pages/verified-account.html"
     );
 
+    // 4️⃣ Logout
+    await account.deleteSession("current");
+
     res.status(201).json({
-      message: "User created successfully. Verification email sent",
+      message: "User registered, verification email sent, and logged out",
       user: {
-        id: response.$id,
-        email: response.email,
-        name: response.name,
+        id: user.$id,
+        email: user.email,
+        name: user.name,
       },
     });
   } catch (error) {
     console.error("Appwrite error:", error);
-
     return res.status(error.code || 500).json({
       message: error.message || "Registration failed",
     });
