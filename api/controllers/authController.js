@@ -16,8 +16,12 @@ export const registerUser = async (req, res) => {
       fullname
     );
 
+    await account.createVerification(
+      "https://researchbank-eta.vercel.app/pages/verified-account.html"
+    );
+
     res.status(201).json({
-      message: "User created successfully",
+      message: "User created successfully. Verification email sent.",
       user: {
         id: response.$id,
         email: response.email,
