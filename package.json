@@ -16,10 +16,11 @@
     "@appwrite.io/pink-icons": "^1.0.0",
     "@tailwindcss/vite": "^4.0.14",
     "appwrite": "^21.2.1",
+    "body-parser": "^2.2.1",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
-    "node-appwrite": "^21.0.0",
+    "node-appwrite": "^21.1.0",
     "tailwindcss": "^4.0.14"
   }
 }
