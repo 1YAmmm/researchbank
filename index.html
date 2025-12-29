@@ -52,12 +52,14 @@
 
         <form class="mt-6 space-y-4">
           <input
+            id="login-email"
             type="email"
             placeholder="Email address"
             class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-indigo-500 focus:outline-none"
           />
 
           <input
+            id="login-password"
             type="password"
             placeholder="Password"
             class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-indigo-500 focus:outline-none"
@@ -286,7 +288,7 @@
     </footer>
 
     <!-- JS -->
-    <script src="/js/showRegisterLoginmodal.js"></script>
-    <script src="/js/register.js"></script>
+    <script type="module" src="/src/auth.js"></script>
+    <script type="module" src="/src/showRegisterLoginmodal.js"></script>
   </body>
 </html>

@@ -17,7 +17,7 @@
     <!-- ================= MODAL ================= -->
     <div
       id="publish-modal"
-      class="fixed inset-0 z-50 items-center justify-center bg-black/40 backdrop-blur-sm p-4"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
     >
       <div class="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl relative">
         <!-- Close Button -->
@@ -198,12 +198,20 @@
         </nav>
 
         <!-- Publish Button -->
-        <div class="px-6 py-4 border-t">
+        <div class="px-6 py-4 border-t space-y-2">
           <button
             id="publishpaper-button"
             class="w-full rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 px-4 py-3 text-sm font-medium text-white shadow hover:scale-105 transition"
           >
             Publish Paper
+          </button>
+
+          <!-- Logout Button -->
+          <button
+            id="logout-button"
+            class="w-full rounded-xl bg-red-500 px-4 py-3 text-sm font-medium text-white shadow hover:bg-red-600 transition"
+          >
+            Logout
           </button>
         </div>
       </aside>
@@ -332,6 +340,7 @@
     </div>
 
     <!-- ================= JS ================= -->
-    <script src="../lib/mainPanelToggle.js"></script>
+    <script type="module" src="/src/mainPanelToggle.js"></script>
+    <script type="module" src="/src/useraccount.js"></script>
   </body>
 </html>
