@@ -1,3 +1,4 @@
+// Sidebar toggle
 const sidebar = document.getElementById("sidebar");
 const toggleBtn = document.getElementById("toggle-sidebar");
 
@@ -41,55 +42,26 @@ myPapersLink.addEventListener("click", () =>
 accountLink.addEventListener("click", () =>
   showPanel(accountPanel, accountLink)
 );
+//tab inside the my papers panel
+const tabs = document.querySelectorAll(".tab-btn");
+const contents = document.querySelectorAll(".tab-content");
 
-// Publish modal
-const publishBtn = document.getElementById("publishpaper-button");
-const publishModal = document.getElementById("publish-modal");
-const closePublishModal = document.getElementById("close-publish-modal");
-const addResearcherBtn = document.getElementById("add-researcher");
-const researchersContainer = document.getElementById("researchers-container");
+tabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    // Remove active style from all tabs
+    tabs.forEach((t) => {
+      t.classList.remove("text-indigo-500", "border-b-2");
+      t.classList.add("text-gray-500");
+    });
 
-// Show modal
-publishBtn.addEventListener("click", () => {
-  publishModal.classList.remove("hidden");
-});
+    // Hide all contents
+    contents.forEach((c) => c.classList.add("hidden"));
 
-// Close modal
-closePublishModal.addEventListener("click", () => {
-  publishModal.classList.add("hidden");
-});
+    // Activate clicked tab
+    tab.classList.add("text-indigo-500", "border-b-2", "border-indigo-500");
+    tab.classList.remove("text-gray-500");
 
-// Add more researcher input
-addResearcherBtn.addEventListener("click", () => {
-  const wrapper = document.createElement("div");
-  wrapper.className = "flex items-center gap-2";
-
-  const input = document.createElement("input");
-  input.type = "text";
-  input.placeholder = "Researcher Name";
-  input.className =
-    "flex-1 w-full rounded-xl border px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none";
-  input.required = true;
-
-  const removeBtn = document.createElement("button");
-  removeBtn.type = "button";
-  removeBtn.textContent = "✕";
-  removeBtn.className =
-    "text-red-500 hover:text-red-700 font-bold text-sm p-1 rounded transition";
-
-  // Remove researcher input on click
-  removeBtn.addEventListener("click", () => {
-    wrapper.remove();
+    const target = tab.getAttribute("data-tab");
+    document.getElementById(target).classList.remove("hidden");
   });
-
-  wrapper.appendChild(input);
-  wrapper.appendChild(removeBtn);
-  researchersContainer.appendChild(wrapper);
-});
-
-// Close modal when clicking outside
-publishModal.addEventListener("click", (e) => {
-  if (e.target === publishModal) {
-    publishModal.classList.add("hidden");
-  }
 });

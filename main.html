@@ -14,10 +14,10 @@
   </head>
 
   <body class="bg-slate-50 font-[Inter] text-slate-800">
-    <!-- ================= MODAL ================= -->
+    <!-- ================= Adding researach modal ================= -->
     <div
       id="publish-modal"
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
+      class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
     >
       <div class="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl relative">
         <!-- Close Button -->
@@ -39,6 +39,7 @@
               >Research Title</label
             >
             <input
+              id="research-title"
               type="text"
               placeholder="Enter research title"
               class="w-full rounded-xl border px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none"
@@ -52,6 +53,7 @@
               >Description</label
             >
             <textarea
+              id="research-description"
               placeholder="Enter research description"
               class="w-full rounded-xl border px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none"
               rows="3"
@@ -84,9 +86,10 @@
           <!-- Research Advisor -->
           <div>
             <label class="block text-sm font-medium text-slate-700"
-              >Research Advisor</label
+              >Research Adviser</label
             >
             <input
+              id="research-adviser"
               type="text"
               placeholder="Advisor Name"
               class="w-full rounded-xl border px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none"
@@ -99,6 +102,7 @@
             <label class="block text-sm font-medium text-slate-700">Date</label>
             <input
               type="date"
+              id="research-date"
               class="w-full rounded-xl border px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none"
               required
             />
@@ -110,16 +114,15 @@
               >Category</label
             >
             <select
+              id="research-category"
               class="w-full rounded-xl border px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none"
               required
             >
               <option value="">Select category</option>
-              <option value="Computer Science">Computer Science</option>
-              <option value="Engineering">Engineering</option>
-              <option value="Psychology">Psychology</option>
-              <option value="Biology">Biology</option>
-              <option value="Mathematics">Mathematics</option>
-              <option value="Other">Other</option>
+              <option value="thesis">Thesis</option>
+              <option value="dissertation">Dissertation</option>
+              <option value="researchPaper">Research Paper</option>
+              <option value="technicalReport">Technical Report</option>
             </select>
           </div>
 
@@ -129,6 +132,7 @@
               >Upload PDF</label
             >
             <input
+              id="research-file"
               type="file"
               accept=".pdf"
               class="w-full text-sm text-slate-600"
@@ -138,12 +142,44 @@
 
           <!-- Submit -->
           <button
+            id="publishpaper-button"
             type="submit"
             class="w-full rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 px-4 py-3 text-sm font-medium text-white shadow hover:scale-105 transition"
           >
             Publish
           </button>
         </form>
+      </div>
+    </div>
+    <!-- ================= VERIFY ACCOUNT MODAL ================= -->
+    <div
+      id="verify-modal"
+      class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
+    >
+      <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl relative">
+        <!-- Close Button -->
+        <button
+          id="close-verify-modal"
+          class="absolute right-4 top-4 rounded-full p-2 text-slate-400 hover:bg-slate-100 transition"
+        >
+          ✕
+        </button>
+
+        <h2 class="text-2xl font-semibold text-center mb-4">
+          Verify Your Account
+        </h2>
+
+        <p class="text-sm text-slate-600 mb-4 text-center">
+          A verification email will be sent to your registered email. Please
+          follow the instructions to verify your account.
+        </p>
+        <button
+          id="button-verify"
+          type="submit"
+          class="w-full rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 px-4 py-3 text-sm font-medium text-white shadow hover:scale-105 transition"
+        >
+          Send Verification Email
+        </button>
       </div>
     </div>
 
@@ -157,9 +193,7 @@
         <div class="flex items-center gap-3 px-6 py-5 border-b">
           <div
             class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-500 to-violet-500 text-white shadow"
-          >
-            🔬
-          </div>
+          ></div>
           <div>
             <h1 class="text-lg font-semibold">Research Bank</h1>
             <p class="text-xs text-slate-500">Student Edition</p>
@@ -200,7 +234,8 @@
         <!-- Publish Button -->
         <div class="px-6 py-4 border-t space-y-2">
           <button
-            id="publishpaper-button"
+            id="open-publish-modal"
+            type="button"
             class="w-full rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 px-4 py-3 text-sm font-medium text-white shadow hover:scale-105 transition"
           >
             Publish Paper
@@ -253,36 +288,13 @@
               </div>
             </header>
 
-            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div
+              id="Publish-paper-dashboard"
+              class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            >
               <!-- Example Paper Card -->
-              <div
-                class="bg-white rounded-2xl p-6 shadow hover:shadow-lg transition flex flex-col justify-between"
-              >
-                <div>
-                  <h3 class="text-lg font-semibold">
-                    AI-Based Student Performance Analysis
-                  </h3>
-                  <p class="mt-1 text-sm text-slate-500">By John Doe · 2025</p>
-                  <p class="mt-3 text-sm text-slate-600 line-clamp-3">
-                    This study explores machine learning models to predict
-                    academic performance using student behavioral data.
-                  </p>
-                </div>
-                <div class="mt-4 flex items-center justify-between">
-                  <span
-                    class="rounded-full bg-indigo-100 px-3 py-1 text-xs text-indigo-600"
-                    >Computer Science</span
-                  >
-                  <a
-                    href="#"
-                    class="text-sm font-medium text-indigo-600 hover:underline"
-                    >View</a
-                  >
-                </div>
-              </div>
             </div>
           </div>
-
           <!-- My Papers Panel -->
           <div id="mypapers-panel" class="hidden">
             <header
@@ -293,17 +305,58 @@
                 <input
                   type="text"
                   placeholder="Search papers..."
+                  id="search-input"
                   class="flex-1 rounded-xl border px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none"
                 />
                 <button
+                  id="search-btn"
                   class="rounded-xl bg-indigo-500 px-4 py-2 text-white text-sm font-medium hover:bg-indigo-600 transition"
                 >
                   Search
                 </button>
               </div>
             </header>
-          </div>
 
+            <!-- Tabs -->
+            <div class="flex gap-2 border-b mb-4 overflow-x-auto">
+              <button
+                class="tab-btn px-4 py-2 rounded-t-xl text-sm font-medium text-indigo-500 border-b-2 border-indigo-500 focus:outline-none"
+                data-tab="pending"
+              >
+                Pending
+              </button>
+              <button
+                class="tab-btn px-4 py-2 rounded-t-xl text-sm font-medium text-gray-500 hover:text-indigo-500 focus:outline-none"
+                data-tab="approved"
+              >
+                Approved
+              </button>
+              <button
+                class="tab-btn px-4 py-2 rounded-t-xl text-sm font-medium text-gray-500 hover:text-indigo-500 focus:outline-none"
+                data-tab="rejected"
+              >
+                Rejected
+              </button>
+            </div>
+
+            <!-- Tab Contents -->
+            <div id="tab-contents">
+              <div
+                id="pending"
+                class="tab-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+              ></div>
+
+              <div
+                id="approved"
+                class="tab-content hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+              ></div>
+
+              <div
+                id="rejected"
+                class="tab-content hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+              ></div>
+            </div>
+          </div>
           <!-- Account Settings Panel -->
           <div id="account-panel" class="hidden">
             <h2 class="text-2xl font-semibold mb-4">Account Settings</h2>
@@ -338,9 +391,14 @@
         </main>
       </div>
     </div>
-
-    <!-- ================= JS ================= -->
+    <script type="module" src="/src/lib/sessiondestroy.js"></script>
+    <script type="module" src="/src/lib/userGuard.js"></script>
     <script type="module" src="/src/mainPanelToggle.js"></script>
+    <script type="module" src="/src/function/publishpaper.js"></script>
+    <script type="module" src="/src/function/getPendingDocs.js"></script>
+    <script type="module" src="/src/function/getApproveDocs.js"></script>
+    <script type="module" src="/src/function/getRejectDocs.js"></script>
+    <script type="module" src="/src/function/getDocs.js"></script>
     <script type="module" src="/src/useraccount.js"></script>
   </body>
 </html>

@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Research Bank | Admin Dashboard</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <!-- ===== REJECT REASON MODAL ===== -->
+  <div
+    id="reject-modal"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"
+  >
+    <div class="w-full max-w-md rounded-2xl bg-white p-8 shadow-2xl relative">
+      <!-- Close Button -->
+      <button
+        onclick="closeRejectModal()"
+        class="close-reason-modal absolute right-4 top-4 rounded-full p-2 text-slate-400 hover:bg-slate-100"
+      >
+        ✕
+      </button>
+
+      <!-- Panel -->
+      <div>
+        <h2 class="text-2xl font-semibold text-center">
+          Reject Research Paper
+        </h2>
+
+        <p class="mt-1 text-center text-sm text-slate-500">
+          Please provide the reason for rejecting this paper
+        </p>
+
+        <form class="mt-6 space-y-4">
+          <textarea
+            id="reject-reason"
+            rows="5"
+            placeholder="Enter rejection reason..."
+            class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:border-indigo-500 focus:outline-none resize-none"
+          ></textarea>
+
+          <button
+            type="button"
+            id="confirm-reject-btn"
+            class="w-full rounded-xl bg-red-500 py-2.5 text-sm font-medium text-white shadow-md transition hover:bg-red-600 hover:scale-[1.02]"
+          >
+            Reject Paper
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <body class="bg-slate-50 font-[Inter] text-slate-800">
+    <div class="flex h-screen overflow-hidden">
+      <!-- SIDEBAR -->
+      <aside
+        id="sidebar"
+        class="fixed inset-y-0 left-0 z-50 w-72 transform -translate-x-full sm:translate-x-0 transition-transform bg-white border-r shadow-lg flex flex-col"
+      >
+        <div class="flex items-center gap-3 px-6 py-5 border-b">
+          <div
+            class="h-10 w-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-violet-500"
+          ></div>
+          <div>
+            <h1 class="text-lg font-semibold">Research Bank</h1>
+            <p class="text-xs text-slate-500">Admin Panel</p>
+          </div>
+        </div>
+
+        <nav class="px-4 py-4 flex-1 space-y-2 text-sm">
+          <button
+            onclick="showPanel('users')"
+            class="w-full text-left rounded-xl px-4 py-3 hover:bg-indigo-100"
+          >
+            Users
+          </button>
+          <button
+            onclick="showPanel('approval')"
+            class="w-full text-left rounded-xl px-4 py-3 hover:bg-indigo-100"
+          >
+            Research Approval
+          </button>
+        </nav>
+        <div class="px-6 py-4 border-t space-y-2">
+          <!-- Logout Button -->
+          <button
+            id="logout-button"
+            class="w-full rounded-xl bg-red-500 px-4 py-3 text-sm font-medium text-white shadow hover:bg-red-600 transition"
+          >
+            Logout
+          </button>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="flex-1 p-6 overflow-y-auto sm:ml-72">
+        <!-- Top bar for mobile -->
+        <div class="sm:hidden flex items-center justify-between mb-4">
+          <h2 class="text-lg font-semibold">Admin Dashboard</h2>
+          <button
+            id="toggle-sidebar-btn"
+            class="text-2xl p-2 rounded hover:bg-slate-100 transition"
+          >
+            ☰
+          </button>
+        </div>
+
+        <!-- USERS PANEL -->
+        <section id="users-panel">
+          <h2 class="text-2xl font-semibold mb-6">Registered Users</h2>
+
+          <div class="overflow-x-auto bg-white rounded-2xl shadow">
+            <table class="w-full text-sm">
+              <thead class="bg-slate-100 text-left">
+                <tr>
+                  <th class="px-6 py-3">Name</th>
+                  <th class="px-6 py-3">Email</th>
+                  <th class="px-6 py-3">Labels</th>
+                  <th class="px-6 py-3">Status</th>
+                  <th class="px-6 py-3">Action</th>
+                </tr>
+              </thead>
+              <tbody id="users-tbody">
+                <!-- JavaScript will inject users here -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- APPROVAL PANEL -->
+        <section id="approval-panel" class="hidden">
+          <h2 class="text-2xl font-semibold mb-6">Research Approval</h2>
+          <div id="mypapers-panel" class="hidden">
+            <header
+              class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 border-b pb-4"
+            >
+              <div class="flex gap-4 flex-1 sm:flex-none ml-auto">
+                <input
+                  type="text"
+                  placeholder="Search papers..."
+                  id="search-input"
+                  class="flex-1 rounded-xl border px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+                />
+                <button
+                  id="search-btn"
+                  class="rounded-xl bg-indigo-500 px-4 py-2 text-white text-sm font-medium hover:bg-indigo-600 transition"
+                >
+                  Search
+                </button>
+              </div>
+            </header>
+
+            <!-- Tabs -->
+            <div class="flex gap-2 border-b mb-4 overflow-x-auto">
+              <button
+                class="tab-btn px-4 py-2 rounded-t-xl text-sm font-medium text-indigo-500 border-b-2 border-indigo-500 focus:outline-none"
+                data-tab="pending"
+              >
+                Pending
+              </button>
+              <button
+                class="tab-btn px-4 py-2 rounded-t-xl text-sm font-medium text-gray-500 hover:text-indigo-500 focus:outline-none"
+                data-tab="approved"
+              >
+                Approved
+              </button>
+              <button
+                class="tab-btn px-4 py-2 rounded-t-xl text-sm font-medium text-gray-500 hover:text-indigo-500 focus:outline-none"
+                data-tab="rejected"
+              >
+                Rejected
+              </button>
+            </div>
+
+            <!-- Tab Contents -->
+            <div id="tab-contents">
+              <div
+                id="pending"
+                class="tab-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+              ></div>
+
+              <div
+                id="approved"
+                class="tab-content hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+              ></div>
+
+              <div
+                id="rejected"
+                class="tab-content hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+              ></div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="/src/admin/getAllUser.js"></script>
+    <script type="module" src="/src/admin/getAllpendingDocs.js"></script>
+    <script type="module" src="/src/admin/getAllapproveDocs.js"></script>
+    <script type="module" src="/src/admin/getAllrejectDocs.js"></script>
+    <script type="module" src="/src/lib/adminGuard.js"></script>
+    <script type="module" src="/src/useraccount.js"></script>
+    <script type="module" src="/src/adminPanelSwitch.js"></script>
+  </body>
+</html>
